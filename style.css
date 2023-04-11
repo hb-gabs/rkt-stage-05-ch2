@@ -84,3 +84,7 @@ button {
 .selected img {
     filter: invert(100%);
 }
+
+.hide {
+    display: none;
+}

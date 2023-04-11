@@ -1,8 +1,8 @@
 import { setSoundButtonsActions } from "./play-sound.js";
-import { formatNumberToString } from "./utils.js";
+import { formatNumberToString, toggleElement } from "./utils.js";
 
 let play = document.querySelector('.play');
-let stop = document.querySelector('.stop');
+let reset = document.querySelector('.stop');
 let add = document.querySelector('.add');
 let remove = document.querySelector('.remove');
 let coffee = document.querySelector('.coffee');
@@ -11,7 +11,8 @@ let fireplace = document.querySelector('.fireplace');
 let forest = document.querySelector('.forest');
 let minutes = document.querySelector('.minutes');
 let seconds = document.querySelector('.seconds');
-let isRunning = true;
+let pause = document.querySelector('.pause');
+let isRunning = false;
 
 setSoundButtonsActions([
     {
@@ -32,28 +33,16 @@ setSoundButtonsActions([
     },
 ]);
 
-add.addEventListener('click', () => {
-    let v = Number(minutes.innerHTML) + 5;
-    minutes.innerHTML = formatNumberToString(v);
-});
-
-remove.addEventListener('click', () => {
-    let v = Number(minutes.innerHTML) - 5;
-    minutes.innerHTML = formatNumberToString(v);
-})
-
-play.addEventListener('click', () => {
-    isRunning = true;
-    setTimeout(runTime, 1000);
-})
-
-stop.addEventListener('click', () => isRunning = false);
+const toggleButtons = () => {
+    toggleElement(pause);
+    toggleElement(play);
+}
 
 const countDown = () => {
     let sec = Number(seconds.innerHTML);
     let min = Number(minutes.innerHTML);
     if (min === 0 && sec === 0) {
-        isRunning = false;
+        pauseTimeAction();
         return;
     }
     sec-=1;
@@ -73,3 +62,39 @@ const runTime = () => {
         setTimeout(runTime, 1000);
     }
 }
+
+const playTimeAction = () => {
+    if(!isRunning) {
+        isRunning = true;
+        setTimeout(runTime, 1000);
+        toggleButtons();
+    }
+}
+
+const pauseTimeAction = () => {
+    isRunning = false;
+    toggleButtons();
+}
+
+const resetTimeAction = () => {
+    pauseTimeAction();
+    minutes.innerHTML = '30';
+    seconds.innerHTML = '00';
+}
+
+const addTimeAction = () => {
+    let v = Number(minutes.innerHTML) + 5;
+    minutes.innerHTML = formatNumberToString(v);
+}
+
+const removeTimeAction = () => {
+    let v = Number(minutes.innerHTML) - 5;
+    if(v < 0) v += 5;
+    minutes.innerHTML = formatNumberToString(v);
+}
+
+play.addEventListener('click', playTimeAction);
+pause.addEventListener('click', pauseTimeAction);
+reset.addEventListener('click', resetTimeAction);
+add.addEventListener('click', addTimeAction);
+remove.addEventListener('click', removeTimeAction);

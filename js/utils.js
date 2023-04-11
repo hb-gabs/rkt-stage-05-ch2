@@ -4,3 +4,7 @@ export const formatNumberToString = (number) => {
     }
     return String(number);
 }
+
+export const toggleElement = (element) => {
+    element.classList.toggle('hide');
+}

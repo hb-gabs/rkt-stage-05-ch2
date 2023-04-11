@@ -1,4 +1,4 @@
-const coffee = new Audio("../assets/audios/Cafeteria.wav");
+const coffee = new Audio('../assets/audios/Cafeteria.wav');
 const rain = new Audio("../assets/audios/Chuva.wav");
 const forest = new Audio("../assets/audios/Floresta.wav");
 const fireplace = new Audio("../assets/audios/Lareira.wav");
